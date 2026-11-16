@@ -5,6 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090d13">
 <title>PLANTÃO — 06:00</title>
+  /* MODELOS DOS ANIMATRÔNICOS NAS CÂMERAS */
+.feed {
+  min-height: 280px;
+}
+
+.feed-inner {
+  max-width: 100%;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.feed-actors {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  min-height: 175px;
+  width: 100%;
+}
+
+.camera-animatronic {
+  width: min(42%, 190px);
+  height: 190px;
+  overflow: visible;
+  filter: drop-shadow(0 5px 12px #000);
+  animation: animatronicStare 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes animatronicStare {
+  from { transform: translateY(2px); }
+  to { transform: translateY(-4px); }
+}
+
+.camera-warning {
+  color: #ff7777;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px #ff0000;
+}
 <style>
 :root{--bg:#090d13;--panel:#111923;--line:#34414e;--muted:#8b9aa8;--text:#edf3f7;--red:#e05252;--green:#70d69a;--amber:#e6b85c;--blue:#70b9e8}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#1b2732 0,#090d13 60%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
