@@ -371,7 +371,9 @@ function playCameraStatic() {
   } catch (error) {
     console.warn('Áudio da câmera indisponível:', error);
   }
-}function moveActor(actor) {
+}
+
+function moveActor(actor) {
   if (actor.step >= 3) return;
 
   const previousRoom = actorRoom(actor);
