@@ -3,6 +3,66 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090d13">
 <title>PLANTÃO — 06:00 | Versão 1.4</title>
+/* VERSÃO 1.5 — INTERFERÊNCIA DAS CÂMERAS */
+
+.feed.signal-glitch {
+  animation: feedJolt .12s steps(2, end) 7;
+}
+
+.feed.signal-glitch::before {
+  content: "";
+  z-index: 4;
+  opacity: 1;
+  background:
+    repeating-radial-gradient(
+      circle at center,
+      #ffffff55 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 2px,
+      #ffffff88 3px 4px
+    );
+  mix-blend-mode: screen;
+  animation: staticFlash .12s steps(2, end) 7;
+}
+
+.feed.signal-glitch::after {
+  z-index: 5;
+  opacity: 1;
+  background:
+    linear-gradient(
+      0deg,
+      transparent 35%,
+      #ffffff99 45%,
+      #ffffff22 50%,
+      transparent 60%
+    );
+  animation: staticSweep .35s linear 2;
+}
+
+.feed.signal-glitch .feed-actors {
+  opacity: .15;
+  filter: brightness(2) contrast(2);
+}
+
+@keyframes feedJolt {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+
+@keyframes staticFlash {
+  0%, 100% { opacity: .2; }
+  50% { opacity: 1; }
+}
+
+@keyframes staticSweep {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
 <style>
 :root{--bg:#090d13;--panel:#111923;--line:#34414e;--muted:#8b9aa8;--text:#edf3f7;--red:#e05252;--green:#70d69a;--amber:#e6b85c;--blue:#70b9e8}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#1b2732 0,#090d13 60%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}#app{max-width:1120px;margin:auto;padding:18px}.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 auto 14px;max-width:1000px}.brand h1{font-size:clamp(20px,4vw,30px);letter-spacing:.16em;margin:0}.brand small{color:var(--muted);letter-spacing:.12em}.panel{background:linear-gradient(145deg,rgba(25,36,48,.96),rgba(12,18,26,.98));border:1px solid #344250;border-radius:14px;box-shadow:0 16px 50px #0008}#startScreen,#endScreen{max-width:720px;margin:7vh auto;padding:clamp(22px,5vw,42px);text-align:center}.eyebrow{font-size:12px;color:var(--amber);letter-spacing:.22em;font-weight:800}.hero-title{font-size:clamp(38px,9vw,76px);line-height:.95;margin:14px 0 10px;letter-spacing:.08em;text-shadow:0 5px 30px #000}.hero-sub{color:#aebbc7;line-height:1.6;max-width:530px;margin:0 auto 24px}.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:left;margin:22px 0}.rule{background:#0a1119;border:1px solid #2a3947;border-radius:10px;padding:12px;color:#bdc9d3;font-size:13px}.rule b{display:block;color:#f1f5f8;margin-bottom:4px}.primary{border:0;border-radius:10px;padding:13px 24px;background:linear-gradient(135deg,#d64a4a,#9f242d);font-weight:900;letter-spacing:.1em;box-shadow:0 6px 20px #9f242d55}.primary:hover{filter:brightness(1.12)}.fine{font-size:11px;color:#71808e;margin-top:16px}#game{display:none}.statusbar{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:10px;margin-bottom:12px}.stat{padding:12px 15px;min-width:0}.stat-label{font-size:10px;letter-spacing:.18em;color:var(--muted);font-weight:800}.stat-value{font-size:23px;font-weight:900;font-variant-numeric:tabular-nums}.power-row{display:flex;align-items:center;gap:10px}.meter{height:10px;background:#070b10;border:1px solid #34414e;border-radius:20px;overflow:hidden;flex:1}.meter>span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#53c98c,#b7d96a);transition:width .25s,background .25s}.usage{display:flex;gap:3px;margin-top:5px}.usage i{height:5px;width:15px;background:#34414e;border-radius:2px}.usage i.on{background:var(--amber)}.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(250px,.85fr);gap:12px}.office-wrap{padding:12px}.office-head{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}.office-head b{letter-spacing:.16em;font-size:12px}.office-head span{font-size:11px;color:var(--muted)}#office{height:390px;position:relative;overflow:hidden;border:1px solid #52606c;border-radius:10px;background:linear-gradient(#141d28 0 54%,#222a2f 54% 100%);isolation:isolate}#office:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 78px,#ffffff08 79px 80px),linear-gradient(180deg,#0000 0 52%,#0008 100%);z-index:-1}.ceiling{position:absolute;left:0;right:0;top:0;height:16%;background:linear-gradient(#283541,#111923);border-bottom:5px solid #39434c}.backwall{position:absolute;left:23%;right:23%;top:16%;height:48%;background:linear-gradient(90deg,#101820,#25313a 50%,#101820);border:4px solid #34414a;border-top:0}.poster{position:absolute;left:42%;top:23%;width:16%;height:24%;border:3px solid #7a6a4d;background:linear-gradient(135deg,#7c5b43,#242b31);display:grid;place-items:center;font-size:clamp(20px,4vw,42px);filter:saturate(.65);box-shadow:0 4px 10px #0009}.poster:after{content:"SORRIA";position:absolute;bottom:5px;font-size:8px;letter-spacing:2px;color:#ead8b7}.hall{position:absolute;top:16%;bottom:17%;width:22%;background:linear-gradient(90deg,#05080c,#18212b 55%,#05080c);border:3px solid #34414a;overflow:hidden}.hall.left{left:0}.hall.right{right:0}.hall:before{content:"";position:absolute;left:20%;right:20%;top:0;bottom:0;border-left:2px solid #a3b2bf22;border-right:2px solid #a3b2bf22;background:linear-gradient(#fff0,#ffffff08)}.hall-label{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:2px;color:#82909c}.door{position:absolute;top:16%;bottom:17%;width:22%;z-index:4;background:repeating-linear-gradient(0deg,#303b45 0 24px,#202a34 25px 27px);border:4px solid #66737e;box-shadow:inset 0 0 18px #000;transform:translateY(-105%);transition:transform .25s ease}.door.left{left:0}.door.right{right:0}.door.closed{transform:translateY(0)}.door:after{content:"▦";position:absolute;inset:0;display:grid;place-items:center;color:#a7b1ba55;font-size:42px}.light-glow{position:absolute;top:16%;bottom:17%;width:24%;z-index:2;opacity:0;pointer-events:none;transition:opacity .15s}.light-glow.left{left:0;background:linear-gradient(90deg,#f8e9ad66,#f8e9ad00)}.light-glow.right{right:0;background:linear-gradient(270deg,#f8e9ad66,#f8e9ad00)}.light-glow.on{opacity:1}.threat{position:absolute;top:28%;font-size:clamp(46px,8vw,78px);z-index:3;opacity:0;filter:drop-shadow(0 0 14px #ffdf9b);transition:opacity .15s;pointer-events:none}.threat.left{left:4%}.threat.right{right:4%}.threat.show{opacity:1;animation:stare 1.1s infinite alternate}@keyframes stare{from{transform:translateY(0)}to{transform:translateY(3px)}}.desk{position:absolute;bottom:0;left:20%;right:20%;height:24%;background:linear-gradient(#59616a,#252e36 20%,#111820);clip-path:polygon(5% 0,95% 0,100% 100%,0 100%);z-index:5;border-top:4px solid #7b858c}.monitor{position:absolute;bottom:17%;left:43%;width:14%;height:19%;background:#080e13;border:5px solid #394650;border-radius:5px;z-index:6;box-shadow:0 0 16px #70b9e833}.monitor:after{content:"SYSTEM";position:absolute;inset:0;display:grid;place-items:center;color:#70b9e8;font-size:9px;letter-spacing:2px}.fan{position:absolute;bottom:21%;left:28%;font-size:35px;z-index:6;animation:spin 4s linear infinite;filter:grayscale(.8)}@keyframes spin{to{transform:rotate(360deg)}}.desk-note{position:absolute;bottom:4%;left:0;right:0;text-align:center;font-size:9px;color:#8e9aa4;letter-spacing:3px;z-index:7}.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:10px}.control{border:1px solid #394957;background:#17232e;border-radius:8px;padding:10px 5px;font-size:11px;font-weight:800;letter-spacing:.04em;min-height:56px}.control span{display:block;font-size:18px;margin-bottom:3px}.control.active{background:#3b2528;border-color:#c15b5b;color:#ffdada}.control.light-active{background:#4a4026;border-color:#d5b76a;color:#ffedbd}.control:disabled{opacity:.35;cursor:not-allowed}.side{padding:14px}.side h2{font-size:12px;letter-spacing:.18em;margin:0 0 10px}.side-section{border-bottom:1px solid #2c3945;padding:0 0 12px;margin-bottom:12px}.side-section:last-child{border:0;margin:0}.statusline{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:6px 0;color:#b8c4ce}.statusline strong{color:#eaf0f4}.hint{font-size:11px;color:#8e9ba7;line-height:1.5}.log{height:86px;overflow:auto;background:#080e14;border:1px solid #2c3945;border-radius:8px;padding:8px;font-size:11px;color:#aebbc6;line-height:1.45}.log p{margin:0 0 5px}.log p:last-child{color:#f1d28d}
@@ -169,7 +229,187 @@ function renderCamera(){const room=rooms.find(r=>r.id===selectedCam)||rooms[0];$
 function setCamera(on){if(!state.active||state.power<=0)return;state.camera=on;$('cameraPanel').style.display=on?'block':'none';$('cameraBtn').classList.toggle('active',on);$('cameraState').textContent=on?'Ligadas':'Desligadas';if(on){state.leftLight=false;state.rightLight=false;updateUI();renderCamera();log('Monitor de câmeras ativado.');$('cameraPanel').setAttribute('aria-modal','true');$('cameraPanel').setAttribute('role','dialog');requestAnimationFrame(()=>$('cameraPanel').scrollTo({top:0,behavior:'instant'}))}else{$('cameraPanel').removeAttribute('aria-modal');$('cameraPanel').removeAttribute('role');log('Monitor de câmeras desligado.');requestAnimationFrame(()=>$('office').scrollIntoView({behavior:'smooth',block:'center'}))}updateUI()}
 function toggle(key){if(!state.active||state.power<=0)return;if(key==='camera'){setCamera(!state.camera);return}if(key==='leftDoor'||key==='rightDoor'){state[key]=!state[key];log(`${key==='leftDoor'?'Porta oeste':'Porta leste'} ${state[key]?'fechada':'aberta'}.`)}else{if(state.camera)setCamera(false);state[key]=!state[key]}updateUI()}
 function updateUI(){$('clock').textContent=clockText();$('powerText').textContent=`${Math.ceil(state.power)}%`;$('powerBar').style.width=`${Math.max(0,state.power)}%`;$('powerBar').style.background=state.power<25?'linear-gradient(90deg,#c43d3d,#f18a62)':state.power<50?'linear-gradient(90deg,#d18c3b,#e6c15c)':'linear-gradient(90deg,#53c98c,#b7d96a)';const usage=1+(state.camera?1:0)+(state.leftDoor?1:0)+(state.rightDoor?1:0)+(state.leftLight?1:0)+(state.rightLight?1:0);[...$('usage').children].forEach((el,i)=>el.classList.toggle('on',i<usage));$('leftDoor').classList.toggle('closed',state.leftDoor);$('rightDoor').classList.toggle('closed',state.rightDoor);$('leftGlow').classList.toggle('on',state.leftLight);$('rightGlow').classList.toggle('on',state.rightLight);$('leftThreat').classList.toggle('show',state.leftLight&&state.mimo.step>=3);$('rightThreat').classList.toggle('show',state.rightLight&&state.rust.step>=3);$('leftLight').classList.toggle('light-active',state.leftLight);$('rightLight').classList.toggle('light-active',state.rightLight);$('leftDoorBtn').classList.toggle('active',state.leftDoor);$('rightDoorBtn').classList.toggle('active',state.rightDoor);$('leftDoorState').textContent=state.leftDoor?'Fechada':'Aberta';$('rightDoorState').textContent=state.rightDoor?'Fechada':'Aberta';$('mimoState').textContent=roomName(state.mimo);$('rustState').textContent=roomName(state.rust);$('generatorState').textContent=state.power<=0?'Sem energia':state.power<25?'Crítico':state.power<50?'Baixo':'Estável';$('officeStatus').textContent=state.power<=0?'SEM ENERGIA':state.power<20?'ENERGIA CRÍTICA':'SISTEMA ONLINE';['cameraBtn','leftDoorBtn','rightDoorBtn','leftLight','rightLight'].forEach(id=>$(id).disabled=state.power<=0);if(state.camera)renderCamera()}
-function moveActor(actor){if(actor.step>=3)return;const boost=state.seconds/180*.18;if(Math.random()<actor.ai+boost){actor.step++;const place=actor.step>=3?'chegou à porta do escritório':`foi visto em ${roomName(actor).replace(/^No |^Na /,'')}`;log(`${actor.name} ${place}.`);if(state.camera)renderCamera()}}
+let staticAudioContext = null;
+
+function playCameraStatic() {
+  try {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    if (!staticAudioContext) {
+      staticAudioContext = new AudioContextClass();
+    }
+
+    const ctx = staticAudioContext;
+
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+
+    const duration = 0.85;
+    const length = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < length; i++) {
+      data[i] = (Math.random() * 2 - 1) *
+        (0.65 + Math.random() * 0.35);
+    }
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1800;
+    filter.Q.value = 0.7;
+
+    const volume = ctx.createGain();
+    volume.gain.setValueAtTime(0.0001, ctx.currentTime);
+    volume.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.08);
+    volume.gain.setValueAtTime(0.12, ctx.currentTime + 0.5);
+    volume.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+    noise.connect(filter);
+    filter.connect(volume);
+    volume.connect(ctx.destination);
+
+    noise.start();
+    noise.stop(ctx.currentTime + duration);
+
+    // Pequeno estalo eletrônico
+    const click = ctx.createOscillator();
+    const clickVolume = ctx.createGain();
+
+    click.type = 'square';
+    click.frequency.setValueAtTime(110, ctx.currentTime);
+    clickVolume.gain.setValueAtTime(0.055, ctx.currentTime);
+    clickVolume.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.045
+    );
+
+    click.connect(clickVolume);
+    clickVolume.connect(ctx.destination);
+
+    click.start();
+    click.stop(ctx.currentTime + 0.05);
+
+  } catch (error) {
+    console.warn('Áudio da câmera indisponível:', error);
+  }
+}function moveActor(actor)let staticAudioContext = null;
+
+function playCameraStatic() {
+  try {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    if (!staticAudioContext) {
+      staticAudioContext = new AudioContextClass();
+    }
+
+    const ctx = staticAudioContext;
+
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+
+    const duration = 0.85;
+    const length = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < length; i++) {
+      data[i] = (Math.random() * 2 - 1) *
+        (0.65 + Math.random() * 0.35);
+    }
+
+    const noise = ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1800;
+    filter.Q.value = 0.7;
+
+    const volume = ctx.createGain();
+    volume.gain.setValueAtTime(0.0001, ctx.currentTime);
+    volume.gain.linearRampToValueAtTime(0.12, ctx.currentTime + 0.08);
+    volume.gain.setValueAtTime(0.12, ctx.currentTime + 0.5);
+    volume.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+    noise.connect(filter);
+    filter.connect(volume);
+    volume.connect(ctx.destination);
+
+    noise.start();
+    noise.stop(ctx.currentTime + duration);
+
+    // Pequeno estalo eletrônico
+    const click = ctx.createOscillator();
+    const clickVolume = ctx.createGain();
+
+    click.type = 'square';
+    click.frequency.setValueAtTime(110, ctx.currentTime);
+    clickVolume.gain.setValueAtTime(0.055, ctx.currentTime);
+    clickVolume.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.045
+    );
+
+    click.connect(clickVolume);
+    clickVolume.connect(ctx.destination);
+
+    click.start();
+    click.stop(ctx.currentTime + 0.05);
+
+  } catch (error) {
+    console.warn('Áudio da câmera indisponível:', error);
+  }
+}function moveActor(actor) {
+  if (actor.step >= 3) return;
+
+  const previousRoom = actorRoom(actor);
+  const boost = state.seconds / 180 * .18;
+
+  if (Math.random() < actor.ai + boost) {
+    actor.step++;
+
+    const newRoom = actor.step >= 3
+      ? null
+      : actorRoom(actor);
+
+    const place = actor.step >= 3
+      ? 'chegou à porta do escritório'
+      : `foi visto em ${roomName(actor).replace(/^No |^Na /,'')}`;
+
+    log(`${actor.name} ${place}.`);
+
+    if (state.camera) {
+      if (
+        selectedCam === previousRoom &&
+        previousRoom !== newRoom
+      ) {
+        const feed = $('feed');
+
+        feed.classList.remove('signal-glitch');
+        void feed.offsetWidth;
+        feed.classList.add('signal-glitch');
+
+        setTimeout(() => {
+          feed.classList.remove('signal-glitch');
+        }, 900);
+      }
+
+      renderCamera();
+    }
+  }
+}{if(actor.step>=3)return;const boost=state.seconds/180*.18;if(Math.random()<actor.ai+boost){actor.step++;const place=actor.step>=3?'chegou à porta do escritório':`foi visto em ${roomName(actor).replace(/^No |^Na /,'')}`;log(`${actor.name} ${place}.`);if(state.camera)renderCamera()}}
 function tickActor(actor,door){if(actor.step<3)return;if(state[door]){actor.blocked++;actor.attack=0;if(actor.blocked>=5){actor.step=Math.max(1,actor.step-2);actor.blocked=0;log(`${actor.name} se afastou da porta.`);if(state.camera)renderCamera()}}else{actor.attack++;if(actor.attack>=4)endGame(false,`${actor.name} entrou no escritório. Você não conseguiu chegar às 06:00.`)}}
 function tick(){if(!state.active)return;state.seconds++;let drain=.12;if(state.camera)drain+=.12;if(state.leftDoor)drain+=.19;if(state.rightDoor)drain+=.19;if(state.leftLight)drain+=.10;if(state.rightLight)drain+=.10;state.power=Math.max(0,state.power-drain);if(state.power<=0){state.camera=false;state.leftDoor=false;state.rightDoor=false;state.leftLight=false;state.rightLight=false;state.powerOut++;$('cameraPanel').style.display='none';if(state.powerOut===1)log('A energia acabou. Todos os sistemas foram desligados.');if(state.powerOut>=6){endGame(false,'O gerador apagou e o escritório ficou sem proteção.');return}}tickActor(state.mimo,'leftDoor');tickActor(state.rust,'rightDoor');if(!state.active)return;moveTimer++;if(moveTimer>=6){moveTimer=0;moveActor(state.mimo);moveActor(state.rust)}if(state.seconds>=180){endGame(true,'Você sobreviveu ao turno. O prédio está fechado e o sol está nascendo.');return}updateUI()}
 function endGame(win,message){if(!state.active)return;state.active=false;clearInterval(timer);timer=null;if(!win){const isRust=message.includes('Ferrugem');$('scareArt').innerHTML=isRust?rustScare:mimoScare;$('scareOverlay').classList.remove('mimo','rust','bite');$('scareOverlay').classList.add(isRust?'rust':'mimo','show');$('scareOverlay').setAttribute('aria-hidden','false');setTimeout(()=>$('scareOverlay').classList.add('bite'),850);setTimeout(()=>{$('scareOverlay').classList.remove('show','bite','mimo','rust');$('scareOverlay').setAttribute('aria-hidden','true');showEndScreen(false,message)},1550);return}showEndScreen(true,message)}
