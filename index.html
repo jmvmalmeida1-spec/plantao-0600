@@ -33,6 +33,88 @@
 @media(prefers-reduced-motion:reduce){.camera-animatronic,.scare-art{animation:none!important}}
 
 /* VERSAO 1.4 — mistura de mascote classico com terror mecanico */
+  /* VERSÃO 1.5 — perspectiva das câmeras */
+
+.feed {
+  display: block;
+  padding: 0;
+  isolation: isolate;
+}
+
+.feed-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  padding: 0;
+}
+
+.feed-actors {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7%;
+  height: 57%;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.camera-animatronic {
+  width: 19%;
+  height: 100%;
+  object-fit: contain;
+  flex: 0 1 19%;
+  transform-origin: 50% 100%;
+  filter: grayscale(.5) contrast(1.8) brightness(.55)
+    drop-shadow(0 8px 7px #000) !important;
+}
+
+.camera-animatronic.wolf {
+  filter: grayscale(.7) contrast(1.9) brightness(.5)
+    drop-shadow(0 9px 9px #000) !important;
+}
+
+.feed h3 {
+  position: absolute;
+  bottom: 7%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  margin: 0;
+  font-size: 12px;
+}
+
+.feed p {
+  position: absolute;
+  bottom: 1%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  margin: 0;
+  font-size: 10px;
+}
+
+.feed-actors:empty {
+  display: none;
+}
+
+/* Corredores: personagens mais distantes */
+.feed.corridor-feed .camera-animatronic {
+  width: 12%;
+  flex-basis: 12%;
+  height: 70%;
+}
+
+.feed.corridor-feed .feed-actors {
+  bottom: 13%;
+  height: 43%;
+}
 .camera-animatronic{filter:grayscale(.48) contrast(1.62) brightness(.62) drop-shadow(0 7px 8px #000) drop-shadow(0 0 8px #8d252566)!important}
 .camera-animatronic.wolf{filter:grayscale(.68) contrast(1.72) brightness(.58) drop-shadow(0 7px 10px #000) drop-shadow(0 0 9px #b34b2c77)!important}
 .feed-actors{gap:4px;min-height:205px}
@@ -80,7 +162,10 @@ function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','
 function clockText(){if(!state)return'12:00 AM';const n=Math.min(6,Math.floor(state.seconds/30)),h=n===0?12:n;return`${String(h).padStart(2,'0')}:00 AM`}
 function roomName(a){if(a.step>=3)return'Na porta';const id=a.path[a.step];return({stage:'No palco',dining:'No refeitório',workshop:'Na oficina',storage:'No depósito',west:'No corredor oeste',east:'No corredor leste'})[id]||'Desconhecido'}function actorRoom(a){return a.path[Math.min(a.step,2)]}
 function addCamButtons(){$('camList').innerHTML=rooms.map(r=>`<button class="cam-btn" data-cam="${r.id}">${r.cam}<small>${r.name}</small></button>`).join('');$('camList').querySelectorAll('[data-cam]').forEach(b=>b.addEventListener('click',()=>selectCamera(b.dataset.cam)))}function selectCamera(id){selectedCam=id;state.selectedCam=id;renderCamera()}
-function renderCamera(){const room=rooms.find(r=>r.id===selectedCam)||rooms[0];$('camName').textContent=`${room.cam} / ${room.name}`;$('feedTitle').textContent=room.name;const data='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(sceneArt[room.scene])));$('feed').style.backgroundImage=`linear-gradient(#05080a55,#05080a88),url("${data}")`;$('feed').style.backgroundSize='cover';$('feed').style.backgroundPosition='center';let actors=[];if(state.mimo.step<3&&actorRoom(state.mimo)===selectedCam)actors.push({key:'mimo',svg:mimoSVG,name:'Mimo'});if(state.rust.step<3&&actorRoom(state.rust)===selectedCam)actors.push({key:'rust',svg:rustSVG,name:'Ferrugem'});$('feedActors').innerHTML=actors.map(a=>a.svg).join('');if(actors.length){$('feedDesc').textContent=actors.map(a=>`${a.name} foi localizado aqui.`).join(' ')}else if((selectedCam==='west'&&state.mimo.step>=3)||(selectedCam==='east'&&state.rust.step>=3)){$('feedActors').innerHTML='<div class="camera-warning">⚠ SINAL INSTÁVEL</div>';$('feedDesc').textContent='Algo pode estar muito perto do escritório.'}else{$('feedActors').innerHTML='';$('feedDesc').textContent='Nenhum movimento detectado.'}$('camList').querySelectorAll('[data-cam]').forEach(b=>b.classList.toggle('selected',b.dataset.cam===selectedCam))}
+function renderCamera(){const room=rooms.find(r=>r.id===selectedCam)||rooms[0];$('feed').classList.toggle(
+  'corridor-feed',
+  selectedCam === 'west' || selectedCam === 'east'
+);$('camName').textContent=`${room.cam} / ${room.name}`;$('feedTitle').textContent=room.name;const data='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(sceneArt[room.scene])));$('feed').style.backgroundImage=`linear-gradient(#05080a55,#05080a88),url("${data}")`;$('feed').style.backgroundSize='cover';$('feed').style.backgroundPosition='center';let actors=[];if(state.mimo.step<3&&actorRoom(state.mimo)===selectedCam)actors.push({key:'mimo',svg:mimoSVG,name:'Mimo'});if(state.rust.step<3&&actorRoom(state.rust)===selectedCam)actors.push({key:'rust',svg:rustSVG,name:'Ferrugem'});$('feedActors').innerHTML=actors.map(a=>a.svg).join('');if(actors.length){$('feedDesc').textContent=actors.map(a=>`${a.name} foi localizado aqui.`).join(' ')}else if((selectedCam==='west'&&state.mimo.step>=3)||(selectedCam==='east'&&state.rust.step>=3)){$('feedActors').innerHTML='<div class="camera-warning">⚠ SINAL INSTÁVEL</div>';$('feedDesc').textContent='Algo pode estar muito perto do escritório.'}else{$('feedActors').innerHTML='';$('feedDesc').textContent='Nenhum movimento detectado.'}$('camList').querySelectorAll('[data-cam]').forEach(b=>b.classList.toggle('selected',b.dataset.cam===selectedCam))}
 function setCamera(on){if(!state.active||state.power<=0)return;state.camera=on;$('cameraPanel').style.display=on?'block':'none';$('cameraBtn').classList.toggle('active',on);$('cameraState').textContent=on?'Ligadas':'Desligadas';if(on){state.leftLight=false;state.rightLight=false;updateUI();renderCamera();log('Monitor de câmeras ativado.');$('cameraPanel').setAttribute('aria-modal','true');$('cameraPanel').setAttribute('role','dialog');requestAnimationFrame(()=>$('cameraPanel').scrollTo({top:0,behavior:'instant'}))}else{$('cameraPanel').removeAttribute('aria-modal');$('cameraPanel').removeAttribute('role');log('Monitor de câmeras desligado.');requestAnimationFrame(()=>$('office').scrollIntoView({behavior:'smooth',block:'center'}))}updateUI()}
 function toggle(key){if(!state.active||state.power<=0)return;if(key==='camera'){setCamera(!state.camera);return}if(key==='leftDoor'||key==='rightDoor'){state[key]=!state[key];log(`${key==='leftDoor'?'Porta oeste':'Porta leste'} ${state[key]?'fechada':'aberta'}.`)}else{if(state.camera)setCamera(false);state[key]=!state[key]}updateUI()}
 function updateUI(){$('clock').textContent=clockText();$('powerText').textContent=`${Math.ceil(state.power)}%`;$('powerBar').style.width=`${Math.max(0,state.power)}%`;$('powerBar').style.background=state.power<25?'linear-gradient(90deg,#c43d3d,#f18a62)':state.power<50?'linear-gradient(90deg,#d18c3b,#e6c15c)':'linear-gradient(90deg,#53c98c,#b7d96a)';const usage=1+(state.camera?1:0)+(state.leftDoor?1:0)+(state.rightDoor?1:0)+(state.leftLight?1:0)+(state.rightLight?1:0);[...$('usage').children].forEach((el,i)=>el.classList.toggle('on',i<usage));$('leftDoor').classList.toggle('closed',state.leftDoor);$('rightDoor').classList.toggle('closed',state.rightDoor);$('leftGlow').classList.toggle('on',state.leftLight);$('rightGlow').classList.toggle('on',state.rightLight);$('leftThreat').classList.toggle('show',state.leftLight&&state.mimo.step>=3);$('rightThreat').classList.toggle('show',state.rightLight&&state.rust.step>=3);$('leftLight').classList.toggle('light-active',state.leftLight);$('rightLight').classList.toggle('light-active',state.rightLight);$('leftDoorBtn').classList.toggle('active',state.leftDoor);$('rightDoorBtn').classList.toggle('active',state.rightDoor);$('leftDoorState').textContent=state.leftDoor?'Fechada':'Aberta';$('rightDoorState').textContent=state.rightDoor?'Fechada':'Aberta';$('mimoState').textContent=roomName(state.mimo);$('rustState').textContent=roomName(state.rust);$('generatorState').textContent=state.power<=0?'Sem energia':state.power<25?'Crítico':state.power<50?'Baixo':'Estável';$('officeStatus').textContent=state.power<=0?'SEM ENERGIA':state.power<20?'ENERGIA CRÍTICA':'SISTEMA ONLINE';['cameraBtn','leftDoorBtn','rightDoorBtn','leftLight','rightLight'].forEach(id=>$(id).disabled=state.power<=0);if(state.camera)renderCamera()}
